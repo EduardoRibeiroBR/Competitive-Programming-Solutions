@@ -1,0 +1,27 @@
+Amalgamated Artichokes
+
+/problems/artichoke/file/statement/en/img-0001.jpg
+Picture by Hans Hillewaert via Wikimedia Commons
+Fatima Cynara is an analyst at Amalgamated Artichokes (AA). As with any company, AA has had some very good times as well as some bad ones. Fatima does trending analysis of the stock prices for AA, and she wants to determine the largest decline in stock prices over various time spans. For example, if over a span of time the stock prices were , , , ,  and , then the largest decline would be  between the first and fourth price. If the last price had been  instead of , then the largest decline would have been  between the last two prices.
+Fatima has done some previous analyses and has found that the stock price over any period of time can be modelled reasonably accurately with the following equation:
+
+where , , ,  and  are constants. Fatima would like you to write a program to determine the largest price decline over a given sequence of prices. Figure 1 illustrates the price function for Sample Input 1. You have to consider the prices only for integer values of .
+
+\includegraphics[width=0.9\textwidth ]{sample1}
+Figure 1: Sample Input 1. The largest decline occurs from the fourth to the seventh price.
+Input
+The input consists of a single line containing  integers  (), , , ,  () and  (). The first  integers are described above. The sequence of stock prices to consider is .
+
+Output
+Display the maximum decline in the stock prices. If there is no decline, display the number . Your output should have an absolute or relative error of at most .
+
+Sample Input 1	Sample Output 1
+42 1 23 4 8 10
+104.855110477
+Sample Input 2	Sample Output 2
+100 7 615 998 801 3
+0.00
+Sample Input 3	Sample Output 3
+100 432 406 867 60 1000
+399.303813
+
