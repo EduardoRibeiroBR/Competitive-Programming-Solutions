@@ -1,90 +1,79 @@
 #include <bits/stdc++.h>
-#define MAXN 1010
 
 using namespace std;
 
-int ordem, tamanho, a, b, peso;
+vector<vector<pair<int, int>>> vertice;
 
-typedef struct ver{
-    int vizinho;
-    int peso;
-}vertice;
+void addEdge(int u, int v, int p){
 
-vector<vertice> grafo[MAXN];
+    vertice[u].push_back({v, p});
+    vertice[v].push_back({u, p});
 
-vector<int> Dijstra(int raiz, int ordem){
-    vector <int> estimativas(ordem+1, INT32_MAX); 
-    vector <bool> verificados(ordem+1, false);
+}
 
-    estimativas[raiz] = 0;
+int dijkstra(int s, int n){
 
-    priority_queue<vertice> fila;
+    vector <int> distancia (n, INT32_MAX);
+    vector <bool> visitado (n, false);
 
-    vertice vAtual;
-    vAtual.vizinho = raiz;
-    vAtual.peso = 0;
+    distancia[s] = 0;
 
-    fila.push(vAtual);
+    priority_queue <pair <int, int>> fila;
+
+    fila.push({0, s});
 
     while(!fila.empty()){
-        int vertice_atual = fila.top().vizinho;  fila.pop();
-        if(verificados[vertice_atual]) continue;
-        verificados[vertice_atual] = true;
-        for(auto adj : grafo[vertice_atual]){
-            int soma = 0;
-            soma = adj.peso + estimativas[vertice_atual];
-            if(soma < estimativas[adj.vizinho]){
-                estimativas[adj.vizinho] = soma;
-                vertice prox;
-                prox.vizinho = adj.vizinho;
-                prox.peso = estimativas[adj.vizinho];
-                fila.push();
+
+        int atual = fila.top().second; fila.pop();
+
+        if(visitado[atual]) continue;
+
+        visitado[atual] = true;
+
+        for(auto adj : vertice[atual]){
+
+            int vizinho = adj.first, peso = adj.second;
+
+            if(distancia[atual]+peso < distancia[vizinho]){
+ 
+                distancia[vizinho] = distancia[atual]+peso;
+ 
+                fila.push({-distancia[vizinho], vizinho}); 
             }
+
         }
 
-        
     }
 
-    return estimativas;
+    int maior = 0, menor = INT32_MAX;
+
+    for(int i = 1; i < n; i++){
+        if(i == s)continue;
+        maior = max(maior, distancia[i]);
+        menor = min(menor, distancia[i]);
+
+    }
+
+    return maior - menor;
 }
 
 int main(){
+    int n, m, u, v, p, s;
 
-    cin >> ordem >> tamanho;   
+    cin >> n >> m;
 
-    while(tamanho--){
+    vertice = vector<vector<pair<int, int>>>(n+1);
 
-        cin >> a >> b >> peso;
+    for(int i = 0; i < m; i++){
+        cin >> u >> v >> p;
+        
+        addEdge(u, v, p);
 
-        vertice atual;
-
-        atual.vizinho = b;
-        atual.peso = peso;
-        grafo[a].push_back(atual);
-        atual.vizinho = a;
-        atual.peso = peso;
-        grafo[b].push_back(atual);
     }
 
-    int raiz;
+    cin >> s;
 
-    cin >> raiz; 
-    
-    vector<int> dist = Dijstra(raiz, ordem);
-
-    for(auto x : dist){
-        cout << x << "\n";
-    } 
-
-
-/*
-    for(int i = 0; i < ordem; i++ ){
-        cout << "Vértice: " << i << ":" << "\n";
-        for(auto x : grafo[i]){
-            cout << x.vizinho << " " << x.peso << "\n";
-        }
-    }
-*/
+    cout << dijkstra(s, n+1) << "\n";
 
     return 0;
 }
