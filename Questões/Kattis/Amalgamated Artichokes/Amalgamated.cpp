@@ -2,40 +2,35 @@
 
 using namespace std;
 
-int p, a, b, c, d, n;
+double p, a, b, c, d, n;
 
-double price(int k){
+double price(double k){
 
 	return p * ( sin(a * k + b) + cos(c * k + d) + 2); 
 }
 
 int main()
 {
-    
-    cin >> p >> a >> b >> c >> d >> n;
+	cin >> p >> a >> b >> c >> d >> n;
    
-   double atual;
-   double proximo;
-   double diferenca = 0;
-   	
-    for(int i = 1; i < n; i++){
-    	
- 	atual = price(n); 
- 	
-    	proximo = price(n+1);
-    	
-    	
-    	
-    	diferenca = max(diferenca, atual - proximo);
-    	
-    }
-      
-	if(diferenca < 0){
-		diferenca = 0;
-	}      
+    double preco;
+	double maiorPreco = 0;
+	double maiorDiferenca;
 
-	
-	cout << fixed << setprecision(2) << diferenca << "\n";      
+    for(double i = 1; i <= n; i++){
+		
+		preco = price(i);
+
+		if( preco > maiorPreco){
+			maiorPreco = preco;
+		}
+
+		maiorDiferenca = max(maiorDiferenca, maiorPreco - preco);
+
+	}
+	if(maiorDiferenca < 10e-6) maiorDiferenca = 0;
+
+	cout << setprecision(12) << maiorDiferenca << "\n";
+
+	return 0;
 }
-
-
